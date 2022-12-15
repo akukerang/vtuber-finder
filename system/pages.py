@@ -74,8 +74,18 @@ class pages:
         soup = BeautifulSoup(self.content, 'lxml')
         socialTypes = ['twitter','twitch','youtube']
         socials = []
-        section = soup.find('aside',class_='portable-infobox pi-background pi-border-color pi-theme-wikia pi-layout-default')
-        for link in section.find_all('a'):
-            if link.has_attr('href') and str(link.contents[0]).lower() in socialTypes:
-                socials.append([str(link.contents[0]).lower(), link['href']])
+        try:
+            section = soup.find('aside',class_='portable-infobox pi-background pi-border-color pi-theme-wikia pi-layout-default')
+            try:
+                socials.append(['image', section.find('img')['src']])
+            except:
+                pass #If there is no image provided, returns a NoneType Error
+            try:
+                for link in section.find_all('a'):
+                    if link.has_attr('href') and str(link.contents[0]).lower() in socialTypes:
+                        socials.append([str(link.contents[0]).lower(), link['href']])
+            except:
+                pass
+        except:
+            pass
         return socials
