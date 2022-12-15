@@ -78,12 +78,9 @@ class generateData:
         keywords = cleanUpKeys(keywords)
         df = pd.DataFrame({
             'names': df['names'].values,
-            'keywords': keywords
+            'keywords': keywords,
+            'socials': df['socials'].values
         })
         df['keywords'] = df["keywords"].apply(lambda x: ",".join(map(str, x))).replace("", "none")
         df = df[df.keywords.values != "none"] #Gets rid of rows with no keywords
         df.to_csv(f'data/{self.filename}_processed.csv')
-
-
-
-
