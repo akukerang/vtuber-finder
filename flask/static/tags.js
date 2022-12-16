@@ -36,12 +36,14 @@ function addTags() {
 }
 
 input.addEventListener('keyup', function(e) {
-    if(e.key == 'Enter'){
-        if(input.value != ''){
-            tags.unshift(input.value);
-            addTags();
-            input.value = '';
-        }
+    if(e.key == 'Enter' && input.value != ''){
+        tags.unshift(input.value);
+        addTags();
+        input.value = '';
+    } else if(e.key == ',' && input.value != '' && input.value != ','){
+        tags.unshift(input.value.slice(0,input.value.indexOf('-')));
+        addTags();
+        input.value = '';
     } else if (e.key == 'Backspace' && input.value == ''){
         tags = [...tags.slice(1)];
         addTags();
@@ -57,4 +59,12 @@ document.addEventListener('click', function(e){
     }
 })
 
+
+function sendKeywords(){
+    const request = new XMLHttpRequest();
+    request.open('POST', `/sendkeywords/${tags}`);
+    console.log(JSON.stringify(tags));
+    console.log(request);
+    request.send();
+}
 
