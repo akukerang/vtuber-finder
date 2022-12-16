@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
+
+body {
+    background-color: white;
+    text-align: center;
+    align-items: center;
+}
+
+
+.tag-container {
+    border: 2px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+}
+
+.tag-container .tag {
+    padding:5px;
+    border:1px solid #ccc;
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    cursor: default;
+}
+.tag i {
+    font-size: 16px;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+.tag-container input{
+    flex: 1;
+    font-size: 16px;
+    padding: 5px;
+    outline: none;
+    border: 0;
+}
+
+
+.submit-button{
+    color:black;
+    font-size:20px;
+    margin: 12px;
+    padding: 8px 32px;
+}
+
+
+
+.recommend-container .recommend {
+    text-align: center;
+    border: 1px solid #000;
+    width: 14%;
+    display: inline-block;
+    padding: 6px;
+    margin: 4px;
+}
+
+
+.recommend-container .mainimage {
+    width: 100%
+}
+.recommend .icons {
+    width: 12%;
+    margin: 10px;
+    object-fit: contain;
+    fill: #000;
+}

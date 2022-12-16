@@ -34,3 +34,11 @@ class recommendSystem:
         sorted_tfidf_weights = sorted(self.tfidf[self.corpus[vtube.index.values.tolist()[0]]], key=lambda w: w[1], reverse=True)
         print(top_hits)
 
+    def keyword_recommend(self, keywords: list) -> None:
+        query_doc_bow = self.dictionary.doc2bow(keywords) 
+        query_doc_tfidf = self.tfidf[query_doc_bow] 
+        similarity_array = self.sims[query_doc_tfidf] 
+        similarity_series = pd.Series(similarity_array.tolist(), index=self.dataset.names) 
+        top_hits = similarity_series.sort_values(ascending=False)[:5] 
+        print(top_hits)
+
