@@ -92,7 +92,7 @@ class generateData:
         df2['image'] = df2['image'].str.replace(r"/revision/latest\?cb=[^/]+", '', regex=True)
 
         df = pd.DataFrame({
-            'names': df['names'].values,
+            'names': df['names'].str.lower(),
             'keywords': keywords,
             'images': df2['image'].values,
             'twitter': df2['twitter'].values,

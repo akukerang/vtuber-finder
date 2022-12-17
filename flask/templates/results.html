@@ -8,7 +8,7 @@
 
 <body>
   <h1>VTuber Recommendator</h1>
-  <h3>Enter desired keywords</h3>
+  <h3>Enter desired keywords and/or vtubers</h3>
   <h4>Press 'Comma' or 'Enter' to enter a new word. 'Backspace' or click the X to delete a word.</h4>
   <div class="tag-container">
     <input />
@@ -17,7 +17,7 @@
   <div class="recommend-container">
     {%for i, rows in dataframe.iterrows()%}
     <div class="recommend">
-      <h2>{{rows['names']}}</h2>
+      <h2>{{rows['names'].title()}}</h2>
       <img class="mainimage" src="{{rows['images']}}">
       <a href="{{rows['twitter']}}">
         <svg class="icons" viewBox="0 0 16 16">
@@ -41,17 +41,14 @@
     </div>
     {%endfor%}
   </div>
-
-
-
-
-
   <script src="../static/tags.js">
   </script>
   <script>
-    var tags={{ keywords|tojson|safe }};
+    var tags = {{keywords|tojson|safe}};
     addTags();
   </script>
+
+ 
 </body>
 
 </html>
