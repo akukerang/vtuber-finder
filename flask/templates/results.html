@@ -8,13 +8,9 @@
 
 <body>
   <h1>VTuber Recommendator</h1>
+  <h3>Enter desired keywords</h3>
+  <h4>Press 'Comma' or 'Enter' to enter a new word. 'Backspace' or click the X to delete a word.</h4>
   <div class="tag-container">
-    {%for keyword in keywords%}
-    <div class="tag">
-      <span>{{keyword}}</span>
-      <i class="material-icons" data-item="testing">close</i>
-    </div>
-    {%endfor%}
     <input />
   </div>
   <button class="submit-button" type="button" onclick=sendData() href="">Submit</button>
@@ -51,6 +47,10 @@
 
 
   <script src="../static/tags.js">
+  </script>
+  <script>
+    var tags={{ keywords|tojson|safe }};
+    addTags();
   </script>
 </body>
 
