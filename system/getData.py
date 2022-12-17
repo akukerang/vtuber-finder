@@ -87,6 +87,10 @@ class generateData:
             for col in row:
                 data[col[0]] = col[1]
             df2 = df2.append(data, ignore_index=True)
+
+        df2['image'] = df2['image'].str.replace(r"/revision/latest/scale-to-width-down/\d+\?cb=\d+", '', regex=True)
+        df2['image'] = df2['image'].str.replace(r"/revision/latest\?cb=[^/]+", '', regex=True)
+
         df = pd.DataFrame({
             'names': df['names'].values,
             'keywords': keywords,

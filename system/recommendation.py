@@ -42,9 +42,20 @@ class recommendSystem:
         similarity_df = pd.DataFrame({
             'names' : self.dataset.names,
             'similarity' : similarity_array.tolist(),
-            'socials' : self.dataset.socials
+            'images': self.dataset.images,
+            'twitter': self.dataset.twitter,
+            'youtube': self.dataset.youtube,
+            'twitch': self.dataset.twitch
         })
+        similarity_df = similarity_df.fillna('')
         return similarity_df.sort_values(by=['similarity'], ascending=False)[:5]
 
 
 
+
+
+# r = recommendSystem('data/english_processed.csv')
+# rewopi = r.keyword_recommend(['coding','python'])
+# print(rewopi)
+# for i, rows in rewopi.iterrows():
+#     print (rows['names'], rows['images'],rows['twitter'],rows['youtube'],rows['twitch'])
