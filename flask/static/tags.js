@@ -60,11 +60,7 @@ document.addEventListener('click', function(e){
 })
 
 
-function sendKeywords(){
-    const request = new XMLHttpRequest();
-    request.open('POST', `/sendkeywords/${tags}`);
-    console.log(JSON.stringify(tags));
-    console.log(request);
-    request.send();
+function sendData(){
+    location.href = `/sendkeywords?data=${tags}`;
 }
 

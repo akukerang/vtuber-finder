@@ -7,6 +7,8 @@ from tqdm import tqdm
 from nltk.tokenize import word_tokenize
 import string
 from pages import pages
+import re
+import ast
     
 def filterList(keywords: list):
     filtered = [i for i in keywords if not '\\\\' in i]
@@ -76,11 +78,27 @@ class generateData:
         df = pd.read_csv(f'data/{self.filename}.csv')
         keywords = df['keywords'].tolist()
         keywords = cleanUpKeys(keywords)
+        df['names'] = df['names'].str.replace(r'User:.*?/', '', regex=True)
+        socials = df['socials'].tolist()
+        socials = [ast.literal_eval(i) for i in socials]
+        df2 = pd.DataFrame(columns=['names','image','youtube','twitter','twitch'])
+        for row in socials:
+            data = {}
+            for col in row:
+                data[col[0]] = col[1]
+            df2 = df2.append(data, ignore_index=True)
         df = pd.DataFrame({
             'names': df['names'].values,
             'keywords': keywords,
-            'socials': df['socials'].values
+            'images': df2['image'].values,
+            'twitter': df2['twitter'].values,
+            'youtube': df2['youtube'].values,
+            'twitch': df2['twitch'].values,
         })
         df['keywords'] = df["keywords"].apply(lambda x: ",".join(map(str, x))).replace("", "none")
         df = df[df.keywords.values != "none"] #Gets rid of rows with no keywords
         df.to_csv(f'data/{self.filename}_processed.csv')
+
+
+g = generateData('English',100,'english')
+g.processKeywords()
