@@ -13,6 +13,9 @@ import ast
 def filterList(keywords: list):
     filtered = [i for i in keywords if not '\\\\' in i]
     filtered = [i for i in filtered if not all(j in string.punctuation for j in i)]
+    for punct in list(string.punctuation):
+        filtered = [i.strip(punct) for i in filtered]
+    filtered = list(dict.fromkeys(filtered))
     return filtered
 
 def cleanUpKeys(keywordList: list) -> list:
@@ -23,7 +26,8 @@ def cleanUpKeys(keywordList: list) -> list:
         keywords = [k.replace(i,j) for k in keywords]
     keywords = [i.strip('-') for i in keywords]
     keywords = [word_tokenize(keyword.lower()) for keyword in keywords]
-    keywords = [filterList(i) for i in keywords]
+    keywords = [filterList(keyword) for keyword in keywords]
+
     return keywords
 
 
@@ -87,7 +91,7 @@ class generateData:
             for col in row:
                 data[col[0]] = col[1]
             df2 = df2.append(data, ignore_index=True)
-
+         #removes certain part from image url to allow it to display on webpage
         df2['image'] = df2['image'].str.replace(r"/revision/latest/scale-to-width-down/\d+\?cb=\d+", '', regex=True)
         df2['image'] = df2['image'].str.replace(r"/revision/latest\?cb=[^/]+", '', regex=True)
 
