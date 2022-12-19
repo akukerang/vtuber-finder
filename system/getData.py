@@ -113,13 +113,5 @@ class generateData:
         df = df[df.keywords.values != "none"] #Gets rid of rows with no keywords
         df.to_csv(f'data/{self.filename}_processed.csv',index=False)
 
-# en = generateData('English',100,'english')
-# jp = generateData('Japanese',100,'japanese')
-# cn = generateData('Chinese',100,'chinese')
-# indo = generateData('Indonesian',100,'indonesian')
-# kr = generateData('Korean',100,'korean')
-# krlist = kr.getAllPages()
-# kr.createDataset(krlist)
-# kr.processKeywords()
 
 

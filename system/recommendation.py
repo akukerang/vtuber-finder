@@ -12,7 +12,7 @@ def no_commas(doc: list) -> list:
 def concat_df(languages: list) -> pd.DataFrame:
     df = pd.DataFrame(columns=["names","keywords","images","twitter","youtube"])
     for i in languages:
-        df = pd.concat([df, pd.read_csv(f'data/{i}_processed.csv')], ignore_index=True).drop_duplicates()
+        df = pd.concat([df, pd.read_csv(f'data/{i}_processed.csv')], ignore_index=True).drop_duplicates(subset="names",keep="first")
     return df
     
 
@@ -43,3 +43,4 @@ class recommendSystem:
         })
         return similarity_df.sort_values(by=['similarity'], ascending=False)
 
+concat_df(['english','japanese'])
