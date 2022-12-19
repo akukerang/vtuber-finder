@@ -37,7 +37,7 @@ def getKeywords():
             processed_keys.append(i)
     dataframe = r.keyword_recommend(processed_keys)
     dataframe = dataframe[dataframe['names'].isin(keywords) == False] #Drops row if there is a vtuber in keywords
-    return render_template('results.html',dataframe=dataframe[:5], keywords=keywords)
+    return render_template('results.html',dataframe=dataframe[:5], keywords=keywords,languages=languages)
 
 
 app.run()

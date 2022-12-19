@@ -69,6 +69,12 @@ function getLanguage(){
     return languages;
 }
 
+function setChecked(languages){
+    var checkboxes = document.querySelectorAll('.checkbox');
+    checkboxes.forEach((checkbox)=> {
+        if(languages.includes(checkbox.value)) {checkbox.checked=true}
+    })
+}
 
 function sendData(){
     location.href = `/sendkeywords?data=${tags}&languages=${getLanguage()}`;

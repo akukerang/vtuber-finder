@@ -42,22 +42,26 @@ class generateData:
         URLSTART = f"https://virtualyoutuber.fandom.com/api.php?action=query&format=json&list=categorymembers&formatversion=2&cmtitle=Category:{self.category}&cmlimit=500&cmsort=sortkey&cmdir=ascending"
         r = requests.get(URLSTART)
         data = r.json()
-        cmcontinue = data['continue']['cmcontinue'] #Gets the starting location of the next items in the list
-        for _i in data['query']['categorymembers']:
-            allPages.append(_i['title'])
-        while(True):
-            URLTEMP = "https://virtualyoutuber.fandom.com/api.php?action=query&format=json&list=categorymembers&formatversion=2&cmtitle=Category:English&cmlimit=500&cmsort=sortkey&cmdir=ascending"
-            r = requests.get(URLTEMP, params={'cmcontinue' : cmcontinue})
-            data = r.json()
+        try:
+            cmcontinue = data['continue']['cmcontinue'] #Gets the starting location of the next items in the list
             for _i in data['query']['categorymembers']:
                 allPages.append(_i['title'])
-            try: 
-                cmcontinue = data['continue']['cmcontinue'] #if cmcontinue does not exist, means at the end of the list
-            except KeyError:
+            while(True):
+                URLTEMP = "https://virtualyoutuber.fandom.com/api.php?action=query&format=json&list=categorymembers&formatversion=2&cmtitle=Category:English&cmlimit=500&cmsort=sortkey&cmdir=ascending"
+                r = requests.get(URLTEMP, params={'cmcontinue' : cmcontinue})
+                data = r.json()
                 for _i in data['query']['categorymembers']:
                     allPages.append(_i['title'])
-                break
-            time.sleep(5) #Delay for API calls
+                try: 
+                    cmcontinue = data['continue']['cmcontinue'] #if cmcontinue does not exist, means at the end of the list
+                except KeyError:
+                    for _i in data['query']['categorymembers']:
+                        allPages.append(_i['title'])
+                    break
+                time.sleep(5) #Delay for API calls
+        except KeyError:
+            for _i in data['query']['categorymembers']:
+                allPages.append(_i['title'])
         return list(set(allPages)) 
 
     def createDataset(self, pagesList: list) -> None:
@@ -82,7 +86,9 @@ class generateData:
         df = pd.read_csv(f'data/{self.filename}.csv')
         keywords = df['keywords'].tolist()
         keywords = cleanUpKeys(keywords)
-        df['names'] = df['names'].str.replace(r'User:.*?/', '', regex=True)
+        df['names'] = df['names'].str.replace('User:','')
+        df['names'] = df['names'].str.replace('Draft:','')
+        df['names'] = df['names'].str.replace('Virtual YouTuber Wiki:','')
         socials = df['socials'].tolist()
         socials = [ast.literal_eval(i) for i in socials]
         df2 = pd.DataFrame(columns=['names','image','youtube','twitter','twitch'])
@@ -107,10 +113,13 @@ class generateData:
         df = df[df.keywords.values != "none"] #Gets rid of rows with no keywords
         df.to_csv(f'data/{self.filename}_processed.csv',index=False)
 
+# en = generateData('English',100,'english')
+# jp = generateData('Japanese',100,'japanese')
+# cn = generateData('Chinese',100,'chinese')
+# indo = generateData('Indonesian',100,'indonesian')
+# kr = generateData('Korean',100,'korean')
+# krlist = kr.getAllPages()
+# kr.createDataset(krlist)
+# kr.processKeywords()
 
 
-
-jp = generateData('Japanese',100,'japanese')
-jp.processKeywords()
-en = generateData('English', 100,'english')
-en.processKeywords()
