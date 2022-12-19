@@ -9,9 +9,17 @@ def no_commas(doc: list) -> list:
     return(no_commas)
 
 
+def concat_df(languages: list) -> pd.DataFrame:
+    df = pd.DataFrame(columns=["names","keywords","images","twitter","youtube"])
+    for i in languages:
+        df = pd.concat([df, pd.read_csv(f'data/{i}_processed.csv')], ignore_index=True).drop_duplicates()
+    return df
+    
+
+
 class recommendSystem:
-    def __init__(self, filename:str):
-        self.dataset = pd.read_csv(filename)
+    def __init__(self, df:pd.DataFrame):
+        self.dataset = df
         keywords = self.dataset['keywords'].tolist()
         keywords = [word_tokenize(keyword.lower()) for keyword in keywords]
         keywords = [no_commas(kw) for kw in keywords]
@@ -21,24 +29,10 @@ class recommendSystem:
         self.tfidf = TfidfModel(self.corpus) #create tfidf model of the corpus
         self.sims = MatrixSimilarity(self.tfidf[self.corpus], num_features=len(self.dictionary))
 
-
-    def vtuber_recommend(self, name:str, number_of_hits:int=5) -> None:
-        vtube = self.dataset.loc[self.dataset.names==name] 
-        keywords = vtube['keywords'].iloc[0].split(',') 
-        query_doc = keywords 
-        query_doc_bow = self.dictionary.doc2bow(query_doc) 
-        query_doc_tfidf = self.tfidf[query_doc_bow] 
-        similarity_array = self.sims[query_doc_tfidf] 
-        similarity_series = pd.Series(similarity_array.tolist(), index=self.dataset.names) 
-        top_hits = similarity_series.sort_values(ascending=False)[1:number_of_hits+1] 
-        sorted_tfidf_weights = sorted(self.tfidf[self.corpus[vtube.index.values.tolist()[0]]], key=lambda w: w[1], reverse=True)
-        print(top_hits)
-
     def keyword_recommend(self, keywords: list) -> None:
         query_doc_bow = self.dictionary.doc2bow(keywords) 
         query_doc_tfidf = self.tfidf[query_doc_bow] 
         similarity_array = self.sims[query_doc_tfidf] 
-        similarity_series = pd.Series(similarity_array.tolist(), index=self.dataset.names) 
         similarity_df = pd.DataFrame({
             'names' : self.dataset.names,
             'similarity' : similarity_array.tolist(),

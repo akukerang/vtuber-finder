@@ -60,7 +60,17 @@ document.addEventListener('click', function(e){
 })
 
 
+function getLanguage(){
+    var languages = [];
+    var checkboxes = document.querySelectorAll('.checkbox:checked');
+    checkboxes.forEach((checkbox)=> {
+        languages.push(checkbox.value)
+    })
+    return languages;
+}
+
+
 function sendData(){
-    location.href = `/sendkeywords?data=${tags}`;
+    location.href = `/sendkeywords?data=${tags}&languages=${getLanguage()}`;
 }
 

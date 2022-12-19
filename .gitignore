@@ -128,5 +128,4 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
-system/tempCodeRunner.py
+flask/templates/temp.html

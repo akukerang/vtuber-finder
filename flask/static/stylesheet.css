@@ -13,6 +13,14 @@ body h1 {
     font-size: 44px;
 }
 
+.language {
+    font-size: 18px;
+}
+.language label {
+    margin-left: 2px;
+    margin-right:12px;
+}
+
 
 .tag-container {
     border: 2px solid #787777;

@@ -1,17 +1,11 @@
 import sys
 from flask import Flask, render_template, request
 sys.path.append('system/')
-from recommendation import recommendSystem
+from recommendation import recommendSystem, concat_df
 import pandas as pd
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'temp'
-
-df = pd.read_csv('data/english_processed.csv')
-namelist = df['names'].tolist()
-
-
-r = recommendSystem('data/english_processed.csv')
 
 @app.route('/')
 def home():
@@ -20,6 +14,16 @@ def home():
 @app.route('/sendkeywords')
 def getKeywords():
     processed_keys=[]
+    languages = request.args.get('languages')
+    if languages == '':
+        languages = ['english']
+    else:        
+        languages = list(languages.split(','))
+
+    df = concat_df(languages)
+    namelist = df['names'].tolist()
+    r = recommendSystem(df)
+
     keywords = request.args.get('data')
     keywords = list(keywords.lower().split(","))
     keywords = [str(keyword).strip() for keyword in keywords]

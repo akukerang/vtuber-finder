@@ -105,8 +105,12 @@ class generateData:
         })
         df['keywords'] = df["keywords"].apply(lambda x: ",".join(map(str, x))).replace("", "none")
         df = df[df.keywords.values != "none"] #Gets rid of rows with no keywords
-        df.to_csv(f'data/{self.filename}_processed.csv')
+        df.to_csv(f'data/{self.filename}_processed.csv',index=False)
 
 
-g = generateData('English',100,'english')
-g.processKeywords()
+
+
+jp = generateData('Japanese',100,'japanese')
+jp.processKeywords()
+en = generateData('English', 100,'english')
+en.processKeywords()
