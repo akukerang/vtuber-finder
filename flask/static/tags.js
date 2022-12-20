@@ -35,7 +35,7 @@ function addTags() {
     )
 }
 
-input.addEventListener('keyup', function(e) {
+input.addEventListener('keydown', function(e) {
     if(e.key == 'Enter' && input.value != ''){
         tags.unshift(input.value);
         addTags();
@@ -44,9 +44,11 @@ input.addEventListener('keyup', function(e) {
         tags.unshift(input.value.slice(0,input.value.indexOf('-')));
         addTags();
         input.value = '';
-    } else if (e.key == 'Backspace' && input.value == ''){
-        tags = [...tags.slice(1)];
-        addTags();
+    } else if (e.key == 'Backspace'){
+        if(input.value == ''){
+            tags = [...tags.slice(1)];
+            addTags();
+        }
     }
 })
 
