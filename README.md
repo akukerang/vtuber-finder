@@ -14,11 +14,8 @@ Then, the system attempts to find the top 5 vtuber with the most similar keyword
 2. Check the desired languages.
 3. Enter keywords and/or vtubers into the input, that you wish to see more of like.
 4. Press Submit
-<br>
-<br>
-<img src = "images/vtubers.png" style ="width: 50%; ">
-<br>
-<img src = "images/keywords.png" style ="width: 50%; ">
+<img src = "images/vtubers.png" style ="width: 70%; ">
+<img src = "images/keywords.png" style ="width: 70%; ">
 
 ## Creating more datasets
 If you wish to create more datasets. In the terminal, run `python -m spacy download en_core_web_sm`, to install the keyword processor library. 
