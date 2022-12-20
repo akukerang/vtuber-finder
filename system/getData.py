@@ -1,6 +1,5 @@
 import requests
 import time
-import requests
 import spacy
 import pandas as pd
 from tqdm import tqdm
